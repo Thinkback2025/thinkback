@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knets Jr - Device Management</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="application-name" content="Knets Jr">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Knets Jr">
+    <meta name="description" content="Child device management companion app">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#22c55e">
+    
+    <!-- Icons -->
+    <link rel="apple-touch-icon" href="/knets-jr-icon-192-real.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="/knets-jr-icon-192-real.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="/knets-jr-icon-512-real.png">
+    <link rel="manifest" href="/knets-jr-manifest.json">
+    
+    <!-- Styles -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            min-height: 100vh;
+            color: #1f2937;
+        }
+        
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .header {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 30px 20px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: #22c55e;
+            border-radius: 20px;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+            box-shadow: 0 4px 16px rgba(34, 197, 94, 0.3);
+        }
+        
+        .app-title {
+            font-size: 28px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 8px;
+        }
+        
+        .app-subtitle {
+            color: #6b7280;
+            font-size: 16px;
+        }
+        
+        .content {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .form-group {
+            margin-bottom: 24px;
+        }
+        
+        .form-label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #374151;
+            font-size: 16px;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: all 0.2s;
+            background: white;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #22c55e;
+            box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .btn-primary {
+            background: #22c55e;
+            color: white;
+            box-shadow: 0 4px 16px rgba(34, 197, 94, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background: #16a34a;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(34, 197, 94, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #374151;
+            border: 2px solid #e5e7eb;
+        }
+        
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        
+        .status-card {
+            background: #f0f9ff;
+            border: 2px solid #0ea5e9;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .status-card.success {
+            background: #f0fdf4;
+            border-color: #22c55e;
+            color: #15803d;
+        }
+        
+        .status-card.error {
+            background: #fef2f2;
+            border-color: #ef4444;
+            color: #dc2626;
+        }
+        
+        .settings-section {
+            background: #f9fafb;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .settings-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #1f2937;
+        }
+        
+        .device-admin-card {
+            background: white;
+            border: 2px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        
+        .device-admin-card.enabled {
+            border-color: #22c55e;
+            background: #f0fdf4;
+        }
+        
+        .device-admin-card.disabled {
+            border-color: #ef4444;
+            background: #fef2f2;
+        }
+        
+        .admin-status {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+        }
+        
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #6b7280;
+        }
+        
+        .status-indicator.enabled {
+            background: #22c55e;
+        }
+        
+        .status-indicator.disabled {
+            background: #ef4444;
+        }
+        
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .modal.show {
+            display: flex;
+        }
+        
+        .modal-content {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            max-width: 350px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+        
+        .modal-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .install-prompt {
+            background: #f0f9ff;
+            border: 2px solid #0ea5e9;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .install-prompt h3 {
+            color: #0369a1;
+            margin-bottom: 8px;
+        }
+        
+        .install-prompt p {
+            color: #0284c7;
+            font-size: 14px;
+            margin-bottom: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header with Logo -->
+        <div class="header">
+            <div class="logo">KJ</div>
+            <h1 class="app-title">Knets Jr</h1>
+            <p class="app-subtitle">Device Management</p>
+        </div>
+        
+        <!-- Install Prompt (iOS/Android) -->
+        <div id="installPrompt" class="install-prompt hidden">
+            <h3>Install Knets Jr</h3>
+            <p>Add this app to your home screen for easier access</p>
+            <button id="installBtn" class="btn btn-primary">Install App</button>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Step 1: Parent Code Input -->
+            <div id="parentCodeStep">
+                <h2 style="margin-bottom: 20px; text-align: center;">Connect to Parent</h2>
+                <div class="form-group">
+                    <label class="form-label" for="parentCode">Enter Parent Code</label>
+                    <input 
+                        type="text" 
+                        id="parentCode" 
+                        class="form-input" 
+                        placeholder="e.g., KNETS123" 
+                        maxlength="8"
+                        style="text-transform: uppercase; letter-spacing: 2px; text-align: center; font-size: 18px; font-weight: 600;"
+                    >
+                </div>
+                <button id="connectBtn" class="btn btn-primary">
+                    <span id="connectBtnText">Connect Device</span>
+                    <span id="connectBtnLoading" class="loading hidden"></span>
+                </button>
+            </div>
+            
+            <!-- Step 2: Device Connected Successfully -->
+            <div id="connectedStep" class="hidden">
+                <div class="status-card success">
+                    <h3 style="margin-bottom: 8px;">✅ Device Connected Successfully!</h3>
+                    <p>Your device is now connected to the parent.</p>
+                </div>
+                
+                <button id="enableAdminBtn" class="btn btn-primary" style="margin-bottom: 20px;">
+                    Enable Device Admin
+                </button>
+                
+                <button id="enableLocationBtn" class="btn btn-secondary" style="margin-bottom: 20px;">
+                    Enable Location Sharing
+                </button>
+                
+                <!-- Settings Section -->
+                <div class="settings-section">
+                    <h3 class="settings-title">Device Settings</h3>
+                    
+                    <div id="deviceAdminCard" class="device-admin-card disabled">
+                        <div class="admin-status">
+                            <div>
+                                <strong>Device Admin Protection</strong>
+                                <p style="color: #6b7280; font-size: 14px; margin-top: 4px;">
+                                    Controls app uninstall and settings
+                                </p>
+                            </div>
+                            <div class="status-indicator disabled" id="adminStatusIndicator"></div>
+                        </div>
+                        <p id="adminStatusText" style="font-size: 14px; color: #6b7280;">
+                            Device admin is currently disabled
+                        </p>
+                        <button id="toggleAdminBtn" class="btn btn-secondary" style="margin-top: 12px;">
+                            Enable Admin Protection
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Secret Code Modal -->
+    <div id="secretCodeModal" class="modal">
+        <div class="modal-content">
+            <h3 class="modal-title">Enter Parent Secret Code</h3>
+            <p style="text-align: center; color: #6b7280; margin-bottom: 20px;">
+                This code was provided by your parent for device protection settings.
+            </p>
+            <div class="form-group">
+                <input 
+                    type="password" 
+                    id="secretCodeInput" 
+                    class="form-input" 
+                    placeholder="Enter 4-digit code"
+                    maxlength="4"
+                    style="text-align: center; font-size: 18px; letter-spacing: 4px;"
+                >
+            </div>
+            <div id="secretCodeError" class="status-card error hidden" style="margin: 0 0 16px 0;">
+                Invalid secret code. Please try again.
+            </div>
+            <div class="modal-buttons">
+                <button id="cancelSecretBtn" class="btn btn-secondary" style="flex: 1;">Cancel</button>
+                <button id="submitSecretBtn" class="btn btn-primary" style="flex: 1;">
+                    <span id="submitSecretText">Verify</span>
+                    <span id="submitSecretLoading" class="loading hidden"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // App State
+        let deviceConnected = false;
+        let deviceAdminEnabled = false;
+        let connectedParentId = null;
+        let childId = null;
+        let deviceImei = null;
+        let deviceId = null;
+        let locationWatchId = null;
+        
+        // PWA Install Support
+        let deferredPrompt = null;
+        
+        // DOM Elements
+        const parentCodeStep = document.getElementById('parentCodeStep');
+        const connectedStep = document.getElementById('connectedStep');
+        const parentCodeInput = document.getElementById('parentCode');
+        const connectBtn = document.getElementById('connectBtn');
+        const connectBtnText = document.getElementById('connectBtnText');
+        const connectBtnLoading = document.getElementById('connectBtnLoading');
+        const enableAdminBtn = document.getElementById('enableAdminBtn');
+        const enableLocationBtn = document.getElementById('enableLocationBtn');
+        const deviceAdminCard = document.getElementById('deviceAdminCard');
+        const adminStatusIndicator = document.getElementById('adminStatusIndicator');
+        const adminStatusText = document.getElementById('adminStatusText');
+        const toggleAdminBtn = document.getElementById('toggleAdminBtn');
+        const secretCodeModal = document.getElementById('secretCodeModal');
+        const secretCodeInput = document.getElementById('secretCodeInput');
+        const secretCodeError = document.getElementById('secretCodeError');
+        const submitSecretBtn = document.getElementById('submitSecretBtn');
+        const submitSecretText = document.getElementById('submitSecretText');
+        const submitSecretLoading = document.getElementById('submitSecretLoading');
+        const cancelSecretBtn = document.getElementById('cancelSecretBtn');
+        const installPrompt = document.getElementById('installPrompt');
+        const installBtn = document.getElementById('installBtn');
+        
+        // Get device IMEI (simulated for web)
+        function getDeviceImei() {
+            // In a real app, this would get the actual IMEI
+            // For web demo, we'll generate a unique identifier
+            let imei = localStorage.getItem('device_imei');
+            if (!imei) {
+                imei = 'WEB' + Date.now().toString().slice(-12);
+                localStorage.setItem('device_imei', imei);
+            }
+            return imei;
+        }
+        
+        // Initialize app
+        function initApp() {
+            deviceImei = getDeviceImei();
+            console.log('Device IMEI:', deviceImei);
+            
+            // Check if device is already connected
+            const savedConnection = localStorage.getItem('knets_connection');
+            if (savedConnection) {
+                const connection = JSON.parse(savedConnection);
+                connectedParentId = connection.parentId;
+                childId = connection.childId;
+                deviceConnected = true;
+                showConnectedStep();
+            }
+            
+            // Check device admin status
+            checkDeviceAdminStatus();
+            
+            // PWA install prompt
+            setupPWAInstall();
+        }
+        
+        // Connect to parent using parent code
+        async function connectToParent() {
+            const parentCode = parentCodeInput.value.trim().toUpperCase();
+            
+            if (!parentCode) {
+                alert('Please enter a parent code');
+                return;
+            }
+            
+            setConnectLoading(true);
+            
+            try {
+                const response = await fetch('/api/knets-jr/connect', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        parentCode: parentCode,
+                        deviceImei: deviceImei,
+                        deviceInfo: {
+                            userAgent: navigator.userAgent,
+                            platform: navigator.platform,
+                            language: navigator.language
+                        }
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Save connection info
+                    localStorage.setItem('knets_connection', JSON.stringify({
+                        parentId: result.parentId,
+                        childId: result.childId,
+                        parentCode: parentCode
+                    }));
+                    
+                    connectedParentId = result.parentId;
+                    childId = result.childId;
+                    deviceId = result.deviceId;
+                    deviceConnected = true;
+                    
+                    showConnectedStep();
+                    
+                    // Start checking for parent location requests after connection
+                    startLocationRequestChecking();
+                } else {
+                    alert(result.message || 'Failed to connect. Please check your parent code.');
+                }
+            } catch (error) {
+                console.error('Connection error:', error);
+                alert('Connection failed. Please try again.');
+            } finally {
+                setConnectLoading(false);
+            }
+        }
+        
+        // Show connected step
+        function showConnectedStep() {
+            parentCodeStep.classList.add('hidden');
+            connectedStep.classList.remove('hidden');
+            checkDeviceAdminStatus();
+            
+            // Check if location services are available
+            if ('geolocation' in navigator) {
+                console.log('📍 Geolocation is supported');
+            } else {
+                console.warn('⚠️ Geolocation is not supported');
+            }
+        }
+        
+        // Set connect button loading state
+        function setConnectLoading(loading) {
+            connectBtn.disabled = loading;
+            connectBtnText.classList.toggle('hidden', loading);
+            connectBtnLoading.classList.toggle('hidden', !loading);
+        }
+        
+        // Enable device admin
+        function enableDeviceAdmin() {
+            // In a real app, this would request device admin permissions
+            if (window.DevicePolicyManager) {
+                // Android WebView with device admin support
+                window.DevicePolicyManager.requestAdminPrivileges();
+            } else {
+                // Web simulation
+                localStorage.setItem('device_admin_enabled', 'true');
+                deviceAdminEnabled = true;
+                updateAdminStatus();
+                alert('Device admin protection enabled! The app is now protected from uninstall.');
+            }
+        }
+        
+        // Check device admin status
+        function checkDeviceAdminStatus() {
+            if (window.DevicePolicyManager) {
+                deviceAdminEnabled = window.DevicePolicyManager.isAdminActive();
+            } else {
+                deviceAdminEnabled = localStorage.getItem('device_admin_enabled') === 'true';
+            }
+            updateAdminStatus();
+        }
+        
+        // Update admin status UI
+        function updateAdminStatus() {
+            if (deviceAdminEnabled) {
+                deviceAdminCard.className = 'device-admin-card enabled';
+                adminStatusIndicator.className = 'status-indicator enabled';
+                adminStatusText.textContent = 'Device admin protection is active';
+                toggleAdminBtn.textContent = 'Disable Admin Protection';
+                toggleAdminBtn.className = 'btn btn-secondary';
+            } else {
+                deviceAdminCard.className = 'device-admin-card disabled';
+                adminStatusIndicator.className = 'status-indicator disabled';
+                adminStatusText.textContent = 'Device admin protection is disabled';
+                toggleAdminBtn.textContent = 'Enable Admin Protection';
+                toggleAdminBtn.className = 'btn btn-primary';
+            }
+        }
+        
+        // Toggle device admin (requires secret code if disabling)
+        function toggleDeviceAdmin() {
+            if (deviceAdminEnabled) {
+                // Disabling requires parent secret code
+                showSecretCodeModal();
+            } else {
+                // Enabling can be done directly
+                enableDeviceAdmin();
+            }
+        }
+        
+        // Show secret code modal
+        function showSecretCodeModal() {
+            secretCodeModal.classList.add('show');
+            secretCodeInput.value = '';
+            secretCodeError.classList.add('hidden');
+            secretCodeInput.focus();
+        }
+        
+        // Hide secret code modal
+        function hideSecretCodeModal() {
+            secretCodeModal.classList.remove('show');
+        }
+        
+        // Verify secret code and disable admin
+        async function verifySecretCode() {
+            const secretCode = secretCodeInput.value.trim();
+            
+            if (!secretCode) {
+                showSecretError('Please enter the secret code');
+                return;
+            }
+            
+            setSecretSubmitLoading(true);
+            
+            try {
+                const response = await fetch('/api/knets-jr/verify-secret', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        parentId: connectedParentId,
+                        secretCode: secretCode
+                    })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    // Disable device admin
+                    if (window.DevicePolicyManager) {
+                        window.DevicePolicyManager.removeAdminPrivileges();
+                    } else {
+                        localStorage.setItem('device_admin_enabled', 'false');
+                    }
+                    
+                    deviceAdminEnabled = false;
+                    updateAdminStatus();
+                    hideSecretCodeModal();
+                    alert('Device admin protection disabled.');
+                } else {
+                    showSecretError(result.message || 'Invalid secret code');
+                }
+            } catch (error) {
+                console.error('Secret verification error:', error);
+                showSecretError('Verification failed. Please try again.');
+            } finally {
+                setSecretSubmitLoading(false);
+            }
+        }
+        
+        // Show secret code error
+        function showSecretError(message) {
+            secretCodeError.textContent = message;
+            secretCodeError.classList.remove('hidden');
+        }
+        
+        // Set secret submit loading state
+        function setSecretSubmitLoading(loading) {
+            submitSecretBtn.disabled = loading;
+            submitSecretText.classList.toggle('hidden', loading);
+            submitSecretLoading.classList.toggle('hidden', !loading);
+        }
+        
+        // Setup PWA install
+        function setupPWAInstall() {
+            // Show install prompt for iOS Safari
+            if (window.navigator.standalone === false) {
+                installPrompt.classList.remove('hidden');
+            }
+            
+            // Handle beforeinstallprompt event (Android Chrome)
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                installPrompt.classList.remove('hidden');
+            });
+            
+            // Handle app installed event
+            window.addEventListener('appinstalled', () => {
+                installPrompt.classList.add('hidden');
+                deferredPrompt = null;
+            });
+        }
+        
+        // Install PWA
+        function installPWA() {
+            if (deferredPrompt) {
+                deferredPrompt.prompt();
+                deferredPrompt.userChoice.then((choiceResult) => {
+                    if (choiceResult.outcome === 'accepted') {
+                        console.log('User accepted the install prompt');
+                    }
+                    deferredPrompt = null;
+                    installPrompt.classList.add('hidden');
+                });
+            } else {
+                // iOS Safari instructions
+                alert('To install this app:\n\n1. Tap the Share button\n2. Select "Add to Home Screen"\n3. Tap "Add"');
+            }
+        }
+        
+        // Location tracking functions with multiple methods
+        function startLocationTracking() {
+            if (!navigator.geolocation) {
+                console.warn('⚠️ Geolocation not supported');
+                return;
+            }
+            
+            console.log('📍 Starting multi-method location tracking...');
+            
+            // Try GPS first (high accuracy)
+            tryGpsLocation();
+            
+            // Set up continuous tracking with fallback methods
+            locationWatchId = navigator.geolocation.watchPosition(
+                (position) => sendLocationUpdate(position, 'gps'),
+                (error) => {
+                    console.warn('📍 GPS failed, trying network positioning');
+                    tryNetworkLocation();
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 15000,
+                    maximumAge: 300000 // 5 minutes
+                }
+            );
+        }
+        
+        function tryGpsLocation() {
+            console.log('📍 Attempting GPS location...');
+            navigator.geolocation.getCurrentPosition(
+                (position) => sendLocationUpdate(position, 'gps'),
+                (error) => {
+                    console.warn('📍 GPS failed, trying network positioning');
+                    tryNetworkLocation();
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 15000,
+                    maximumAge: 60000
+                }
+            );
+        }
+        
+        function tryNetworkLocation() {
+            console.log('📍 Attempting network-based location...');
+            navigator.geolocation.getCurrentPosition(
+                (position) => sendLocationUpdate(position, 'network'),
+                (error) => {
+                    console.warn('📍 Network positioning failed, trying cell tower method');
+                    tryCellTowerLocation();
+                },
+                {
+                    enableHighAccuracy: false, // Use network/WiFi positioning
+                    timeout: 10000,
+                    maximumAge: 180000 // 3 minutes
+                }
+            );
+        }
+        
+        function tryCellTowerLocation() {
+            console.log('📍 Attempting cell tower triangulation...');
+            
+            // For cell tower positioning, we use low accuracy mode
+            navigator.geolocation.getCurrentPosition(
+                (position) => sendLocationUpdate(position, 'cell_tower'),
+                (error) => {
+                    console.error('📍 All location methods failed:', error);
+                    // Try to get any available location with very permissive settings
+                    tryFallbackLocation();
+                },
+                {
+                    enableHighAccuracy: false,
+                    timeout: 20000,
+                    maximumAge: 600000 // 10 minutes - very permissive for cell towers
+                }
+            );
+        }
+        
+        function tryFallbackLocation() {
+            console.log('📍 Attempting fallback location method...');
+            
+            // Last resort - try to get any location with maximum timeout
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    // Determine method based on accuracy
+                    let method = 'network';
+                    if (position.coords.accuracy < 50) {
+                        method = 'gps';
+                    } else if (position.coords.accuracy > 1000) {
+                        method = 'cell_tower';
+                    }
+                    sendLocationUpdate(position, method);
+                },
+                (error) => {
+                    console.error('📍 Complete location failure:', error);
+                    handleLocationError(error);
+                },
+                {
+                    enableHighAccuracy: false,
+                    timeout: 30000,
+                    maximumAge: 900000 // 15 minutes - very permissive
+                }
+            );
+        }
+        
+        function sendLocationUpdate(position, method = 'gps') {
+            if (!deviceId) {
+                console.warn('⚠️ Device not connected, skipping location update');
+                return;
+            }
+            
+            // Determine location method based on accuracy if not specified
+            if (method === 'auto') {
+                if (position.coords.accuracy < 50) {
+                    method = 'gps';
+                } else if (position.coords.accuracy < 500) {
+                    method = 'network';
+                } else {
+                    method = 'cell_tower';
+                }
+            }
+            
+            const locationData = {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude,
+                accuracy: position.coords.accuracy,
+                altitude: position.coords.altitude,
+                altitudeAccuracy: position.coords.altitudeAccuracy,
+                heading: position.coords.heading,
+                speed: position.coords.speed,
+                timestamp: new Date().toISOString(),
+                deviceId: deviceId,
+                locationMethod: method
+            };
+            
+            console.log(`📍 Sending ${method} location update:`, locationData);
+            
+            // Send location to Knets main app
+            fetch('/api/knets-jr/location', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(locationData)
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.success) {
+                    console.log(`📍 ${method} location sent successfully (accuracy: ${position.coords.accuracy}m)`);
+                } else {
+                    console.warn('⚠️ Failed to send location:', result.message);
+                }
+            })
+            .catch(error => {
+                console.error('❌ Location send error:', error);
+                // If network fails, store location locally for retry
+                storeLocationForRetry(locationData);
+            });
+        }
+        
+        function storeLocationForRetry(locationData) {
+            try {
+                let pendingLocations = JSON.parse(localStorage.getItem('pending_locations') || '[]');
+                pendingLocations.push(locationData);
+                
+                // Keep only last 10 pending locations
+                if (pendingLocations.length > 10) {
+                    pendingLocations = pendingLocations.slice(-10);
+                }
+                
+                localStorage.setItem('pending_locations', JSON.stringify(pendingLocations));
+                console.log('📍 Location stored for retry');
+            } catch (error) {
+                console.error('Failed to store location for retry:', error);
+            }
+        }
+        
+        function retryPendingLocations() {
+            try {
+                const pendingLocations = JSON.parse(localStorage.getItem('pending_locations') || '[]');
+                
+                if (pendingLocations.length === 0) return;
+                
+                console.log(`📍 Retrying ${pendingLocations.length} pending locations`);
+                
+                pendingLocations.forEach((locationData, index) => {
+                    setTimeout(() => {
+                        fetch('/api/knets-jr/location', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(locationData)
+                        })
+                        .then(response => response.json())
+                        .then(result => {
+                            if (result.success) {
+                                console.log('📍 Retry location sent successfully');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('❌ Retry location failed:', error);
+                        });
+                    }, index * 1000); // Stagger requests by 1 second
+                });
+                
+                // Clear pending locations after retry attempt
+                localStorage.removeItem('pending_locations');
+                
+            } catch (error) {
+                console.error('Failed to retry pending locations:', error);
+            }
+        }
+        
+        function handleLocationError(error) {
+            console.error('📍 Location error:', error);
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    console.warn('⚠️ Location access denied by user');
+                    // Show user message about enabling location
+                    showLocationPermissionHelp();
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    console.warn('⚠️ Location information unavailable - trying alternative methods');
+                    // Try different positioning methods
+                    setTimeout(tryNetworkLocation, 2000);
+                    break;
+                case error.TIMEOUT:
+                    console.warn('⚠️ Location request timeout - retrying with longer timeout');
+                    // Retry with more permissive settings
+                    setTimeout(tryFallbackLocation, 1000);
+                    break;
+                default:
+                    console.warn('⚠️ Unknown location error - attempting recovery');
+                    setTimeout(tryNetworkLocation, 3000);
+                    break;
+            }
+        }
+        
+        function showLocationPermissionHelp() {
+            const helpMessage = `
+Location access is required for safety features.
+
+To enable location:
+• iPhone: Settings > Privacy & Security > Location Services
+• Android: Settings > Apps > Browser > Permissions > Location
+• Browser: Click the location icon in address bar
+
+Or try refreshing the page and allow location access when prompted.
+            `;
+            
+            if (confirm(helpMessage + '\n\nWould you like to try again?')) {
+                // User wants to try again
+                setTimeout(() => {
+                    enableLocationSharing();
+                }, 1000);
+            }
+        }
+        
+        function stopLocationTracking() {
+            if (locationWatchId) {
+                navigator.geolocation.clearWatch(locationWatchId);
+                locationWatchId = null;
+                console.log('📍 Location tracking stopped');
+            }
+        }
+        
+        // Enable location sharing
+        function enableLocationSharing() {
+            console.log('📍 Requesting location permission...');
+            
+            if (!navigator.geolocation) {
+                alert('Location sharing is not supported on this device.');
+                return;
+            }
+            
+            // Request location permission
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    console.log('📍 Location permission granted');
+                    alert('Location sharing enabled! Your location will be shared with your parent for safety.');
+                    enableLocationBtn.textContent = 'Location Sharing Enabled ✓';
+                    enableLocationBtn.disabled = true;
+                    enableLocationBtn.className = 'btn btn-primary';
+                    
+                    // Start continuous location tracking
+                    startLocationTracking();
+                },
+                (error) => {
+                    console.error('📍 Location permission denied:', error);
+                    alert('Location permission is required for safety. Please enable location access in your browser settings.');
+                },
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 60000
+                }
+            );
+        }
+        
+        // Event Listeners
+        connectBtn.addEventListener('click', connectToParent);
+        enableAdminBtn.addEventListener('click', enableDeviceAdmin);
+        enableLocationBtn.addEventListener('click', enableLocationSharing);
+        toggleAdminBtn.addEventListener('click', toggleDeviceAdmin);
+        submitSecretBtn.addEventListener('click', verifySecretCode);
+        cancelSecretBtn.addEventListener('click', hideSecretCodeModal);
+        installBtn.addEventListener('click', installPWA);
+        
+        // Enter key handlers
+        parentCodeInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') connectToParent();
+        });
+        
+        secretCodeInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') verifySecretCode();
+        });
+        
+        // Input formatting
+        parentCodeInput.addEventListener('input', (e) => {
+            e.target.value = e.target.value.toUpperCase();
+        });
+        
+        secretCodeInput.addEventListener('input', (e) => {
+            e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
+        });
+        
+        // Check for parent location requests periodically
+        function checkLocationRequests() {
+            if (!deviceId || !deviceConnected) return;
+            
+            fetch(`/api/knets-jr/check-requests/${deviceId}`)
+                .then(response => response.json())
+                .then(result => {
+                    if (result.success && result.hasLocationRequest) {
+                        console.log('📍 Parent requested location - sending current position');
+                        
+                        // Immediately get location when parent requests it
+                        navigator.geolocation.getCurrentPosition(
+                            (position) => {
+                                sendLocationUpdate(position, 'gps');
+                                console.log('📍 Location sent in response to parent request');
+                            },
+                            (error) => {
+                                console.warn('📍 GPS failed for parent request, trying other methods');
+                                tryNetworkLocation();
+                            },
+                            {
+                                enableHighAccuracy: true,
+                                timeout: 10000,
+                                maximumAge: 30000 // 30 seconds - fresh location for parent
+                            }
+                        );
+                    }
+                })
+                .catch(error => {
+                    console.error('❌ Error checking location requests:', error);
+                });
+        }
+        
+        // Initialize app when DOM is loaded
+        document.addEventListener('DOMContentLoaded', initApp);
+        
+        // Retry pending locations when app comes back online
+        window.addEventListener('online', retryPendingLocations);
+        
+        // Check for parent location requests every 30 seconds when connected
+        let locationRequestInterval = null;
+        
+        function startLocationRequestChecking() {
+            if (locationRequestInterval) return;
+            
+            locationRequestInterval = setInterval(() => {
+                checkLocationRequests();
+            }, 30000); // Check every 30 seconds
+            
+            console.log('📍 Started checking for parent location requests');
+        }
+        
+        function stopLocationRequestChecking() {
+            if (locationRequestInterval) {
+                clearInterval(locationRequestInterval);
+                locationRequestInterval = null;
+                console.log('📍 Stopped checking for parent location requests');
+            }
+        }
+        
+        // Handle app visibility changes to optimize location tracking
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                console.log('📍 App hidden - reducing location frequency');
+                stopLocationRequestChecking();
+            } else {
+                console.log('📍 App visible - resuming normal location tracking');
+                if (deviceConnected && locationWatchId) {
+                    // Get fresh location when app becomes visible
+                    tryGpsLocation();
+                    startLocationRequestChecking();
+                }
+            }
+        });
+        
+        // Register service worker for PWA
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/knets-jr-sw.js')
+                    .then((registration) => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch((registrationError) => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+    </script>
+</body>
+</html>

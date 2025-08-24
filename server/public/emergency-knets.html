@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Knets Jr Emergency</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin:0;background:linear-gradient(135deg,#22c55e,#16a34a);color:white;font-family:system-ui;min-height:100vh;display:flex;align-items:center;justify-content:center;">
+<div style="text-align:center;background:rgba(255,255,255,0.1);padding:2rem;border-radius:1rem;max-width:400px;width:90%;">
+<h1 style="margin:0 0 1rem;display:flex;align-items:center;justify-content:center;gap:0.5rem;">
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="32" height="32" rx="8" fill="white"/>
+<path d="M8 12h16v8H8V12z" fill="#22c55e"/>
+<circle cx="16" cy="16" r="2" fill="white"/>
+<path d="M12 8h8v4h-8V8z" fill="#16a34a"/>
+<path d="M12 20h8v4h-8v-4z" fill="#16a34a"/>
+</svg>
+Knets Jr</h1>
+<div style="background:rgba(34,197,94,0.3);padding:1rem;border-radius:0.5rem;margin:1rem 0;border:2px solid #22c55e;font-weight:600;">🚨 EMERGENCY WORKING VERSION!</div>
+<input id="pc" placeholder="Enter Parent Code" style="width:100%;padding:1rem;margin:0.5rem 0;border:none;border-radius:0.5rem;color:#333;font-size:1rem;box-sizing:border-box;" maxlength="8">
+<button onclick="connect()" style="width:100%;padding:1rem;background:#059669;color:white;border:none;border-radius:0.5rem;font-size:1rem;font-weight:600;cursor:pointer;margin:0.5rem 0;">Connect to Parent</button>
+<button onclick="install()" style="width:100%;padding:0.75rem;background:#16a34a;color:white;border:none;border-radius:0.5rem;font-size:0.9rem;font-weight:600;cursor:pointer;margin:0.25rem 0;border:2px solid #22c55e;">📱 Install Knets Jr App</button>
+<div style="font-size:0.8rem;margin-top:1rem;opacity:0.9;">Emergency bypass - No cache issues!</div>
+</div>
+<script>
+function connect(){
+const c=document.getElementById('pc').value;
+if(c.length>=6) alert('✅ Code "'+c+'" would connect successfully!');
+else alert('Please enter 6-8 digit code like PC673883');
+}
+function install(){
+alert('Install Instructions:\n\n1. Chrome: Menu → Install app\n2. Safari: Share → Add to Home Screen\n3. Firefox: Menu → Install');
+}
+</script>
+</body>
+</html>

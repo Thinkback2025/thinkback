@@ -1,0 +1,33 @@
+{
+  "name": "Knets Jr - Device Management",
+  "short_name": "Knets Jr",
+  "description": "Child device management companion app",
+  "start_url": "/knets-jr",
+  "display": "standalone",
+  "background_color": "#22c55e",
+  "theme_color": "#22c55e",
+  "orientation": "portrait",
+  "scope": "/knets-jr",
+  "icons": [
+    {
+      "src": "/knets-jr-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/knets-jr-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "utilities"],
+  "screenshots": [
+    {
+      "src": "/knets-jr-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Add Child - Cache Free</title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <style>
+        body { 
+            font-family: system-ui; 
+            margin: 0; 
+            padding: 20px; 
+            background: #fee; 
+            border: 10px solid red; 
+            min-height: 100vh; 
+        }
+        .emergency-banner { 
+            background: red; 
+            color: white; 
+            padding: 20px; 
+            text-align: center; 
+            font-size: 24px; 
+            font-weight: bold; 
+            margin-bottom: 20px; 
+            animation: blink 1s infinite; 
+        }
+        @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0.3; } }
+        .success-banner { 
+            background: green; 
+            color: white; 
+            padding: 15px; 
+            text-align: center; 
+            font-size: 18px; 
+            margin-bottom: 20px; 
+        }
+        .form-container { 
+            max-width: 500px; 
+            margin: 0 auto; 
+            background: white; 
+            padding: 30px; 
+            border-radius: 10px; 
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1); 
+        }
+        .form-group { 
+            margin-bottom: 20px; 
+        }
+        label { 
+            display: block; 
+            margin-bottom: 5px; 
+            font-weight: bold; 
+        }
+        input, select { 
+            width: 100%; 
+            padding: 12px; 
+            border: 2px solid #ddd; 
+            border-radius: 5px; 
+            font-size: 16px; 
+            box-sizing: border-box; 
+        }
+        button { 
+            background: #22c55e; 
+            color: white; 
+            padding: 15px 30px; 
+            border: none; 
+            border-radius: 5px; 
+            font-size: 18px; 
+            cursor: pointer; 
+            width: 100%; 
+        }
+        button:hover { 
+            background: #16a34a; 
+        }
+        .back-link { 
+            display: inline-block; 
+            margin-bottom: 20px; 
+            color: #0066cc; 
+            text-decoration: none; 
+        }
+    </style>
+</head>
+<body>
+    <div class="emergency-banner">
+        🚨 EMERGENCY CACHE-FREE ADD CHILD PAGE - TIMESTAMP: <span id="timestamp"></span> 🚨
+    </div>
+    
+    <div class="success-banner">
+        ✅ IF YOU SEE THIS, THE CACHE ISSUE IS BYPASSED! ✅
+    </div>
+
+    <div class="form-container">
+        <a href="/" class="back-link">← Back to Dashboard</a>
+        
+        <h1>Add Child - Emergency Version</h1>
+        
+        <form id="addChildForm">
+            <div class="form-group">
+                <label for="name">Child Name *</label>
+                <input type="text" id="name" name="name" required placeholder="Enter child's name">
+            </div>
+            
+            <div class="form-group">
+                <label for="age">Age *</label>
+                <select id="age" name="age" required>
+                    <option value="">Select age</option>
+                    <option value="1">1 year</option>
+                    <option value="2">2 years</option>
+                    <option value="3">3 years</option>
+                    <option value="4">4 years</option>
+                    <option value="5">5 years</option>
+                    <option value="6">6 years</option>
+                    <option value="7">7 years</option>
+                    <option value="8">8 years</option>
+                    <option value="9">9 years</option>
+                    <option value="10">10 years</option>
+                    <option value="11">11 years</option>
+                    <option value="12">12 years</option>
+                    <option value="13">13 years</option>
+                    <option value="14">14 years</option>
+                    <option value="15">15 years</option>
+                    <option value="16">16 years</option>
+                    <option value="17">17 years</option>
+                    <option value="18">18 years</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="deviceName">Device Name *</label>
+                <input type="text" id="deviceName" name="deviceName" required placeholder="e.g., Lily's Phone">
+            </div>
+            
+            <div class="form-group">
+                <label for="countryCode">Country Code *</label>
+                <select id="countryCode" name="countryCode" required>
+                    <option value="+91">🇮🇳 India (+91)</option>
+                    <option value="+1">🇺🇸 United States (+1)</option>
+                    <option value="+44">🇬🇧 United Kingdom (+44)</option>
+                    <option value="+86">🇨🇳 China (+86)</option>
+                    <option value="+81">🇯🇵 Japan (+81)</option>
+                    <option value="+49">🇩🇪 Germany (+49)</option>
+                    <option value="+33">🇫🇷 France (+33)</option>
+                    <option value="+7">🇷🇺 Russia (+7)</option>
+                    <option value="+55">🇧🇷 Brazil (+55)</option>
+                    <option value="+61">🇦🇺 Australia (+61)</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="phoneNumber">Phone Number *</label>
+                <input type="tel" id="phoneNumber" name="phoneNumber" required placeholder="Enter phone number">
+            </div>
+            
+            <div class="form-group">
+                <label for="secretCode">4-Digit Security Code *</label>
+                <input type="password" id="secretCode" name="secretCode" required maxlength="4" pattern="[0-9]{4}" placeholder="Enter 4-digit code">
+            </div>
+            
+            <button type="submit">Add Child & Generate Parent Code</button>
+        </form>
+    </div>
+
+    <script>
+        // Update timestamp
+        document.getElementById('timestamp').textContent = new Date().toISOString();
+        
+        // Handle form submission
+        document.getElementById('addChildForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(e.target);
+            const data = {
+                name: formData.get('name'),
+                age: parseInt(formData.get('age')),
+                deviceName: formData.get('deviceName'),
+                countryCode: formData.get('countryCode'),
+                phoneNumber: formData.get('phoneNumber'),
+                secretCode: formData.get('secretCode')
+            };
+            
+            try {
+                const response = await fetch('/api/children', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(data)
+                });
+                
+                if (response.ok) {
+                    const result = await response.json();
+                    alert('✅ Child added successfully! Parent Code: ' + result.parentCode);
+                    window.location.href = '/parent-codes';
+                } else {
+                    const error = await response.json();
+                    alert('❌ Error: ' + (error.message || 'Failed to add child'));
+                }
+            } catch (error) {
+                alert('❌ Network error: ' + error.message);
+            }
+        });
+    </script>
+</body>
+</html>

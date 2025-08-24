@@ -1,0 +1,98 @@
+{
+  "name": "Knets Jr - Family Device Management",
+  "short_name": "Knets Jr",
+  "description": "Safe device management for children - connect to your parent's Knets account",
+  "start_url": "/knets-jr",
+  "display": "standalone",
+  "prefer_related_applications": false,
+  "background_color": "#1a1a1a",
+  "theme_color": "#22c55e",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/knets-jr-icon-192.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/knets-jr-icon-192.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/knets-jr-icon-192.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/knets-jr-icon-192.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/knets-jr-icon-192.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/knets-jr-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/knets-jr-icon-192.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/knets-jr-icon-512.png", 
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/knets-jr-icon-192.png",
+      "sizes": "192x192", 
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/knets-jr-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png", 
+      "purpose": "maskable"
+    }
+  ],
+  "categories": ["productivity", "utilities", "lifestyle"],
+  "screenshots": [
+    {
+      "src": "/knets-jr-screenshot.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Request Unlock",
+      "short_name": "Unlock",
+      "description": "Request device unlock from parent",
+      "url": "/knets-jr?action=unlock",
+      "icons": [{ "src": "/unlock-icon.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Share Location",
+      "short_name": "Location", 
+      "description": "Share current location with parent",
+      "url": "/knets-jr?action=location",
+      "icons": [{ "src": "/location-icon.png", "sizes": "96x96" }]
+    }
+  ]
+}
